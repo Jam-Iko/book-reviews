@@ -1,0 +1,36 @@
+/* Star ratingbased on rating score 
+http://jsbin.com/IBIDalEn/2/edit?html,css,js,output */
+span.stars, span.stars span {
+    display: inline-block;
+    background: url(img/star.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    max-width: 80px;
+    background-position: 0 0;
+}
+
+body {
+  background: url(img/library.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.card.border-0.shadow.my-5 {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+#photo_credit {
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.jumbotron.jumbotron-fluid {
+    background: rgba(255, 255, 255, 0.7);
+}

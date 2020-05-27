@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Required meta tags -->
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	    <!-- Bootstrap CSS -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Font Awesome CSS-->
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			{% if session['user_id'] %}
+			<a class="navbar-brand" href="{{ url_for('userpage') }}">{{ session['username'] }}</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			    <ul class="navbar-nav mr-auto mt-lg-0">
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="{{ url_for('index') }}">Search</span></a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="{{ url_for('logout') }}">Log Out</span></a>
+			      	</li>
+			    </ul>
+			    <form class="form-inline my-2 my-lg-0" action="/query" method="post">
+			      	<input type="text" class="form-control mr-sm-2" name="query" placeholder="ISBN, Title or Author">
+			  		<button type="submit" class="btn btn-outline-success my-2 my-sm-0"><i class="fa fa-search"></i></button>
+			    </form>
+			</div>
+			{% else %}
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			    <ul class="navbar-nav mr-auto mt-2">
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="{{ url_for('register') }}">Register</span></a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="{{ url_for('login') }}">Log In</span></a>
+			      	</li>
+			    </ul>
+			</div>
+			{% endif%}
+		</nav>
+		
+		<main>
+			<div class="container">
+				<div class="card border-0 shadow my-5">
+					<div class="card-body p-5">
+						<section>
+					  		<header>
+					    		{% block header %}{% endblock %}
+					  		</header>
+					  		{% with messages = get_flashed_messages(with_categories=true) %}
+								{% if messages %}
+									{% for category, message in messages %}
+							    		<div class="alert alert-{{ category }} role="alert"> {{ message }} </div>
+							    	{% endfor %}
+								{% endif %}
+							{% endwith %}
+					  		{% block content %}{% endblock %}
+						</section>
+					</div>
+				</div>
+			</div>
+			<div id="photo_credit">
+				<small>Photo by <a href="https://unsplash.com/@syinq">Susan Yin</a> on <a href="https://unsplash.com/">Unsplash</a></small>
+			</div>
+		</main>
+		<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	</body>
+</html>

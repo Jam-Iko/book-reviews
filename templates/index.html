@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block header%}
+    <h1>{% block title %}What Are You Looking For?{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<blockquote class="blockquote text-right">
+			<p class="mb-0">“Google can bring you back 100,000 answers. A librarian can bring you back the right one.”</p>
+			<footer class="blockquote-footer"> Neil Gaiman</footer>
+		</blockquote>
+	<div class="jumbotron jumbotron-fluid" style="background: rgba(255, 255, 255, 0.7)">
+		
+		<div class="container">
+			<form action="/query" method="post">
+			  	<div class="form-group">
+			    	<input type="text" class="form-control" name="query" placeholder="ISBN, Title or Author">
+			  	</div>
+			  	<button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}

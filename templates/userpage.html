@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block header%}
+    <h1>{% block title %}Good to see you, {{ session ['username'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-reviews-tab" data-toggle="tab" href="#nav-reviews" role="tab" aria-controls="nav-reviews" aria-selected="true">Your Reviews</a>
+            <a class="nav-item nav-link" id="nav-change-pass-tab" data-toggle="tab" href="#nav-change-pass" role="tab" aria-controls="nav-change-pass" aria-selected="false">Change Password</a>
+        </div>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
+                        {% if results %}
+                            {%- for batches in results | batch(2, fill_with=None) %}
+                                <div class="row">
+                                {%- for result in batches %}
+                                    <div class="col-sm-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">"{{ result.title }}" by {{ result.author }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="lead">{{ result.review_title}}</p>
+                                                <span class="stars">{{ result.rating }}</span>
+                                                <p class="card-text">{{ result.review_text }}</p>
+                                                <a href="{{ url_for('book', isbn=result.isbn) }}" class="btn btn-outline-success my-2 my-sm-0" type="submit">Go to Book</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {%- endfor%}
+                                </div>
+                            {%- endfor %}
+                        {% else %}
+                            <h1 class="display-4">You don't seem to have left any reviews...</h1>
+                        {% endif %}
+                    </div>
+                    <div class="tab-pane fade" id="nav-change-pass" role="tabpanel" aria-labelledby="nav-change-pass-tab">
+                        <form action="/userpage" method="post">
+                            <div class="form-group">
+                                <input class="form-control" name="old_password" placeholder="Old password" type="password" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="new_password" placeholder="New password" type="password" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="confirmation" placeholder="Confirm password" type="password" required>
+                            </div>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Change password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}
