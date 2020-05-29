@@ -43,3 +43,13 @@ Static Files (in /static)
 API Access
 
 	Route /api/<isbn> returns a JSON response containing the book’s title, author, publication date, ISBN number, review count and average score.
+	
+
+To Launch (Instructions from CS50W Project 1)
+
+	-Run pip3 install -r requirements.txt in your terminal window to make sure that all of the necessary Python packages are installed.
+	-Set the environment variable FLASK_APP to be application.py.
+		On a Mac or on Linux - export FLASK_APP=application.py	
+		On Windows - set FLASK_APP=application.py
+	-Optionally set the environment variable FLASK_DEBUG to 1.
+	-Set the environment variable DATABASE_URL to be the URI of your database, which you should be able to see from the credentials page on Heroku.
