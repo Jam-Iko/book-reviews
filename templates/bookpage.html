@@ -7,15 +7,21 @@
 {% block content %}
 	<div class="container">
 		<div class="card">
-			<h4 class="card-header">{{ book.title }}</h4>
-			<div class="card-body">
-				<h5 class="card-title">By {{ book.author }}</h5>
-				<p class="text-muted"> Published in {{ book.year }}</p>
-				<p class="text-muted"> ISBN: {{ book.isbn }}</p>
-				<p class="text-muted" class="avg_rating"> Average rating: </p>
-				<span class="stars">{{ data['books'][0]['average_rating'] }}</span>
-		        <span><p class="text-muted"><small>{{ data['books'][0]['average_rating'] }} (based on {{ data['books'][0]['work_ratings_count'] }} Goodreads ratings)</small></p></span>
-				
+			<div class="row no-gutters">
+				<div class="col-md-3">
+			    	<img src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" class="card-img mx-auto" alt="Cover">
+			    </div>
+			    <div class="col-md-9">
+					<div class="card-body">
+						<h4 class="card-header">{{ book.title }}</h4><br>
+						<h5 class="card-title">By {{ book.author }}</h5>
+						<p class="text-muted"> Published in {{ book.year }}</p>
+						<p class="text-muted"> ISBN: {{ book.isbn }}</p>
+						<p class="text-muted" class="avg_rating"> Average rating: </p>
+						<span class="stars">{{ data['books'][0]['average_rating'] }}</span>
+				        <span><p class="text-muted"><small>{{ data['books'][0]['average_rating'] }} (based on {{ data['books'][0]['work_ratings_count'] }} Goodreads ratings)</small></p></span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
