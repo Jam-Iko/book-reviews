@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block header%}
+    <h1>{% block title %}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="card">
+			<div class="row no-gutters">
+				<div class="col-md-3">
+			    	<img src="http://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg" class="card-img mx-auto" alt="Cover">
+			    </div>
+			    <div class="col-md-9">
+					<div class="card-body">
+						<h4 class="card-header">{{ book.title }}</h4><br>
+						<h5 class="card-title">By {{ book.author }}</h5>
+						<p class="text-muted"> Published in {{ book.year }}</p>
+						<p class="text-muted"> ISBN: {{ book.isbn }}</p>
+						<p class="text-muted" class="avg_rating"> Average rating: </p>
+						<span class="stars">{{ data['books'][0]['average_rating'] }}</span>
+				        <span><p class="text-muted"><small>{{ data['books'][0]['average_rating'] }} (based on {{ data['books'][0]['work_ratings_count'] }} Goodreads ratings)</small></p></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="card">
+			<h4 class="card-header">Leave a Review</h4>
+			<div class="card-body">
+				<form action="/review" method="post">
+		            <div class="form-group">
+		                <input autocomplete="off" autofocus class="form-control" name="title" placeholder="Review title" type="text">
+		            </div>
+		            <div class="form-check form-check-inline">
+					  	<input class="form-check-input" type="radio" name="rating" value="1">
+					  	<label class="form-check-label">1</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  	<input class="form-check-input" type="radio" name="rating" value="2">
+					  	<label class="form-check-label">2</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  	<input class="form-check-input" type="radio" name="rating" value="3" required>
+					  	<label class="form-check-label">3</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  	<input class="form-check-input" type="radio" name="rating" value="4">
+					  	<label class="form-check-label">4</label>
+					</div>
+					<div class="form-check form-check-inline">
+					  	<input class="form-check-input" type="radio" name="rating" value="5">
+					  	<label class="form-check-label">5</label>
+					</div>
+		            <div class="form-group">
+		    			<label for="text">Your review</label>
+		    			<textarea class="form-control" name="text" id="text" rows="3"></textarea>
+		  			</div>
+		            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="isbn" value="{{ book.isbn }}">Publish</button>
+		        </form>
+		    </div>
+		</div>
+	</div>
+	{% if reviews %}
+		{% for review in reviews%}
+			<div class="container">
+				<div class="card">
+					<div class="card-body">
+						<p class="card-text text-muted">{{ review.by_user }} rated it <span class="stars">{{ review.rating }}</span></p> 
+						<h5 class="card-title">{{ review.review_title }}</h5>
+						<p class="card-text">{{ review.review_text }}</p>
+						{% if review.by_user == session['username'] %}
+							<button class="btn btn-outline-success my-2 my-sm-0" onclick="topFunction()">Overwrite</button>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

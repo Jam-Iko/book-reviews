@@ -135,12 +135,14 @@ def query():
 @login_required
 def book(isbn):
     """Book page."""
+    key = os.getenv("GOODREADS_KEY")
+
     selected = get_book(isbn)
     reviews = get_reviews(selected["id"])
 
     # Fetch data via Goodreads API
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                       params={"key": "m233wyQp5tErYe3NCXfw", "isbns": isbn})
+                       params={"key": key, "isbns": isbn})
 
     if res.status_code != 200:
         raise Exception("Error! Goodreads API Access Failed!")
