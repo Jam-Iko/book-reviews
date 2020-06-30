@@ -161,6 +161,7 @@ def review():
         rating = request.form.get("rating")
         title = request.form.get("title")
         text = request.form.get("text")
+        user = get_user(session["username"])
 
         # Fetch book and available reviews from database
         selected = get_book(isbn)
@@ -168,7 +169,7 @@ def review():
 
         # Ensure that there is only one review per user
         for r in reviews:
-            if r.by_user == session["username"]:
+            if r.by_user == user["username"]:
                 # Update previously submitted review
                 db.execute("UPDATE reviews SET book_id = :book_id, \
                             rating = :rating, \
@@ -179,7 +180,7 @@ def review():
                             "rating": rating,
                             "review_title": title,
                             "review_text": text,
-                            "by_user": session["username"]})
+                            "by_user": user["id"]})
                 db.commit()
 
                 flash("Your review for this book has been updated!", "success")
@@ -191,7 +192,7 @@ def review():
                     VALUES \
                     (:book_id, :by_user, :rating, :review_title, :review_text)",
                    {"book_id": selected["id"],
-                    "by_user": session["username"],
+                    "by_user": user["id"],
                     "rating": rating,
                     "review_title": title,
                     "review_text": text})
@@ -235,6 +236,7 @@ def isbn_api(isbn):
 @app.route("/userpage", methods=['POST', 'GET'])
 @login_required
 def userpage():
+    user = get_user(session["username"])
     """Query that contains all book reviews by the user."""
     results = db.execute("SELECT reviews.*, books.* \
                           FROM reviews \
@@ -242,11 +244,10 @@ def userpage():
                           ON books.id = reviews.book_id \
                           WHERE reviews.by_user = :by_user\
                           GROUP BY reviews.id, books.id",
-                         {"by_user": session["username"]}).fetchall()
+                         {"by_user": user["id"]}).fetchall()
 
     """Change password."""
     if request.method == 'POST':
-        user = get_user(session["username"])
         # Check in entered old password is correct
         if not check_password_hash(user["hash"], request.form.get("old_password")):
             flash(u"Wrong old password!", "danger")
