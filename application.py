@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+import logging
 
 from flask import Flask, session, redirect, render_template, request
 from flask import flash, jsonify, url_for
@@ -12,6 +13,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 
 # Check for environment variable
