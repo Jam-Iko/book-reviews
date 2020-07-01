@@ -11,6 +11,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -135,18 +137,10 @@ def query():
 @login_required
 def book(isbn):
     """Book page."""
-    key = os.getenv("GOODREADS_KEY")
-
     selected = get_book(isbn)
     reviews = get_reviews(selected["id"])
 
-    # Fetch data via Goodreads API
-    res = requests.get("https://www.goodreads.com/book/review_counts.json",
-                       params={"key": key, "isbns": isbn})
-
-    if res.status_code != 200:
-        raise Exception("Error! Goodreads API Access Failed!")
-    data = res.json()
+    data = get_goodreads_data(isbn)
 
     return render_template("bookpage.html", book=selected, reviews=reviews, data=data)
 
@@ -223,21 +217,32 @@ def isbn_api(isbn):
     if selected is None:
         return page_not_found(404)
 
-    return jsonify({
-        "title": selected.title,
-        "author": selected.author,
-        "year": selected.year,
-        "isbn": selected.isbn,
-        "review_count": selected.review_count,
-        "average_score": round(float(selected.average_score), 1)
-    })
+    if selected.review_count > 0:
+        return jsonify({
+            "title": selected.title,
+            "author": selected.author,
+            "year": selected.year,
+            "isbn": selected.isbn,
+            "review_count": selected.review_count,
+            "average_score": round(float(selected.average_score), 1)
+        })
+    else:
+        data = get_goodreads_data(isbn)
+        return jsonify({
+            "title": selected.title,
+            "author": selected.author,
+            "year": selected.year,
+            "isbn": selected.isbn,
+            "review_count_goodreads": data['books'][0]['work_ratings_count'],
+            "average_score_goodreads": data['books'][0]['average_rating']
+        })
 
 
 @app.route("/userpage", methods=['POST', 'GET'])
 @login_required
 def userpage():
-    user = get_user(session["username"])
     """Query that contains all book reviews by the user."""
+    user = get_user(session["username"])
     results = db.execute("SELECT reviews.*, books.* \
                           FROM reviews \
                           LEFT JOIN books \
@@ -296,10 +301,27 @@ def get_book(isbn):
 
 def get_reviews(book_id):
     """Query to fetch saved reviews from the database."""
-    reviews = db.execute("SELECT * FROM reviews WHERE book_id=:book_id \
+    reviews = db.execute("SELECT reviews.*, users.username \
+                         FROM reviews \
+                         LEFT JOIN users \
+                         ON users.id = reviews.by_user \
+                         WHERE reviews.book_id = :book_id\
                          ORDER BY id DESC",
                          {"book_id": book_id}).fetchall()
     return reviews
+
+def get_goodreads_data(isbn):
+    # Fetch data via Goodreads API
+    key = os.getenv("GOODREADS_KEY")
+
+    res = requests.get("https://www.goodreads.com/book/review_counts.json",
+                       params={"key": key, "isbns": isbn})
+
+    if res.status_code != 200:
+        raise Exception("Error! Goodreads API Access Failed!")
+    data = res.json()
+
+    return data
 
 
 def get_user(username):
