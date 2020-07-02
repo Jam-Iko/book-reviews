@@ -174,7 +174,7 @@ def review():
                             rating = :rating, \
                             review_title = :review_title, \
                             review_text = :review_text \
-                            WHERE by_user = :by_user",
+                            WHERE by_user = :by_user AND book_id = :book_id",
                            {"book_id": selected["id"],
                             "rating": rating,
                             "review_title": title,
