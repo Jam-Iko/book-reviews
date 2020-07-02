@@ -3,8 +3,6 @@ import json
 import requests
 import sys
 import logging
-import urllib.parse
-import psycopg2
 
 from flask import Flask, session, redirect, render_template, request
 from flask import flash, jsonify, url_for
@@ -29,16 +27,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 Session(app)
-
-urllib.parse.uses_netloc.append("postgres")
-url = urllib.parse.urlparse(os.environ["DATABASE_URL"])
-conn = psycopg2.connect(
-    database=url.path[1:],
-    user=url.username,
-    password=url.password,
-    host=url.hostname,
-    port=url.port
-)
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
