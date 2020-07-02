@@ -168,7 +168,7 @@ def review():
 
         # Ensure that there is only one review per user
         for r in reviews:
-            if r.by_user == user["username"]:
+            if r.by_user == user["id"]:
                 # Update previously submitted review
                 db.execute("UPDATE reviews SET book_id = :book_id, \
                             rating = :rating, \

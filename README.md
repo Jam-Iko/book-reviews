@@ -1,13 +1,28 @@
-# Project 1
+# Book Review App: Search for Books and Share Your Opinion
 
-Web Programming with Python and JavaScript
+Created as a Project 1 for CS50 Web Programming with Python and JavaScript course
+
+## <https://book-reviews-wapp.herokuapp.com/>
 
 This is a book review web application built with Flask and PostgreSQL database hosted by Heroku.
+
+## __Usage__:
+	- Register for an account
+	- Search by title (part of the title), ISBN or author
+	- Leave reviews
+	- See history of reviews
+	- Change password as needed
+	- Route /api/<isbn> returns a JSON response containing the book’s title, author, publication date, 
+	ISBN number, review count and average score.
+	
+
 Project includes:
 
-	-requirements.txt
+	-Pipfile
+	-Pipfile.lock (created with pipenv)
+	-Procfile (deploy to Heroku)
 	-import.py
-		Completes upload to the database from books.csv.
+		Uploads to the database from books.csv.
 	-books.csv
 		Contains list of books with its title, author and ISBN.
 	-application.py
@@ -24,8 +39,7 @@ HTML Templates (in /templates)
 		Registration page. In case user enters username that is already in use, or password and 
 		confirmation don't match, there is a relevant warning message flashed.
 	-login.html
-		Login page. In case user enters wrong username or password, a relevant warning message 
-		is flashed.
+		Login page. In case user enters wrong username or password, a warning message is flashed.
 	-index.html
 		Homepage with option to search books by ISBN, title or author.
 	-query.html
@@ -55,7 +69,7 @@ API Access
 	ISBN number, review count and average score.
 	
 
-To Create Your Own App
+To Create Your Own App Locally
 
 	# Clone repository
 	$ git clone https://github.com/Jam-Iko/project-1
