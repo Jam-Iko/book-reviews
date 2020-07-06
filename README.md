@@ -3,6 +3,10 @@
 Created as a Project 1 for CS50 Web Programming with Python and JavaScript course
 
 ## <https://book-reviews-wapp.herokuapp.com/>
+> #### To explore the website without having to complete registration use the following credentials:
+>
+>	- Username: **Explorer**
+>	- Password: **password**
 
 This is a book review web application built with Flask and PostgreSQL database hosted by Heroku.
 
