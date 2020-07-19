@@ -1,6 +1,6 @@
 # Book Review App: Search for Books and Share Your Opinion
 
-Created as a Project 1 for CS50 Web Programming with Python and JavaScript course
+Created as a Project 1 for CS50 Web Programming with Python and JavaScript course (2018 edition)
 
 ## <https://book-reviews-wapp.herokuapp.com/>
 > #### To explore the website without having to complete registration use the following credentials:
