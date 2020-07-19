@@ -1,4 +1,4 @@
-# Book Review App: Search for Books and Share Your Opinion
+# Book Reviews App
 
 Created as a Project 1 for CS50 Web Programming with Python and JavaScript course (2018 edition)
 
