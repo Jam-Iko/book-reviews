@@ -76,7 +76,7 @@ API Access
 To Create Your Own App Locally
 
 	# Clone repository
-	$ git clone https://github.com/Jam-Iko/project-1
+	$ git clone https://github.com/Jam-Iko/book-reviews
      
 	# Install necessary Python packages are installed.
 	$ pip3 install -r requirements.txt 
