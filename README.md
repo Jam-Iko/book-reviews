@@ -10,8 +10,8 @@ This is a book review web application built with Flask and PostgreSQL database h
 	- Register for an account
 	- Search by title (part of the title), ISBN or author
 	- Leave reviews
-	- See history of reviews
-	- Change password as needed
+	- See previous reviews
+	- Change password
 	- Route /api/<isbn> returns a JSON response containing the book’s title, author, publication date, 
 	ISBN number, review count and average score.
 	
